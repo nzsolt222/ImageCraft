@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "imagecraft:blocks/153_0_153"
+	}
+}
