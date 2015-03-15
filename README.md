@@ -3,6 +3,14 @@
 This mod can load an image into the Minecraft world, and you also get 216 colored blocks under `ImageCraft` creative tab.
 This is beta version.
 
+## Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Build](#build)
+- [Usage](#usage)
+- [Screenshot](#screenshot)
+
 ## Installation
 
 1. Install [Minecraft Forge](http://files.minecraftforge.net/) 1.8
