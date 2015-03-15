@@ -34,7 +34,7 @@ Optional arguments(the order does not matter and you have to specify the name of
 | clear        | no value                 | Clear(set the blocks to air) the image instead of building it.      |
 | scale        | smooth, nearest, bicubic | Image scaling type. It depends on the picture which one is better. The default value is nearest. |
 | distance     | cie76, cie94, ciede2000  | Color distance options. It depends on the picture which one is better. The default value is cie94.  |
-| alpha        | a number                 | If the number is 0 or negative than you turn off the transparency. If the number bigger than 255 then the whole picture will be transparent(equal to clear argument). The default value is 10.  |
+| alpha        | a number                 | If the number is 0 or negative then you turn off the transparency. If the number bigger than 255 then the whole picture will be transparent(equal to clear argument). The default value is 10.  |
 
 Example: `/image C:/some/folder/example.png 20 30 left up pos -12 67 -34 alpha 20 scale smooth distance cie76`
 
