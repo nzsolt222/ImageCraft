@@ -6,7 +6,7 @@ This is beta version.
 ## Installation
 
 1. Install [Minecraft Forge](http://files.minecraftforge.net/) 1.8
-2. Download the [ImageCraft-1.8-1.0.jar](./ImageCraft-1.8-1.0.jar) file, and copy it to .minecraft/mods
+2. Download the [ImageCraft-1.8-1.0.jar](./ImageCraft-1.8-1.0.jar?raw=true) file, and copy it to `.minecraft/mods`
 
 ## Usage
 
@@ -30,7 +30,7 @@ Optional arguments(the order does not matter and you have to specify the name of
 | right        | no value                 | Build the image from the specified position to the right. |
 | up           | no value                 | Build the image upward. This is the default behavior. |
 | forward      | no value                 | Build the image forward. |
-| pos          | three number             | The position of the loaded image. If you don't specify the pos argument, then the pos will equal to the block in front of you.  |
+| pos          | three numbers            | The position of the loaded image. If you don't specify the pos argument, then the pos will equal to the block in front of you.  |
 | clear        | no value                 | Clear(set the blocks to air) the image instead of building it.      |
 | scale        | smooth, nearest, bicubic | Image scaling type. It depends on the picture which one is better. The default value is nearest. |
 | distance     | cie76, cie94, ciede2000  | Color distance options. It depends on the picture which one is better. The default value is cie94.  |
@@ -48,9 +48,9 @@ Use gradlew.
 ```
 
 ## Screenshot
-
+Video:
 <a href="https://www.youtube.com/watch?v=hOr_JgSSZo8" target="_blank"><img src="screenshot/youtube.png"></a>
-
+---------------------------
 ![Example 1](screenshot/rainbow2.png?raw=true)
 ![Example 2](screenshot/nyan_cat.png?raw=true)
 ![Example 3](screenshot/spongyabob.png?raw=true)
