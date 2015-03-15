@@ -52,7 +52,7 @@ public class Arguments {
 		imageWidth = 0;
 		imageHeight = 0;
 		startPos = getDefaultStartImagePos(sender);
-		left = true;
+		left = false;
 		up = true;
 		distance = "cie94";
 		alpha = 10;
@@ -72,23 +72,23 @@ public class Arguments {
 	private void processOptionalArguments(ICommandSender sender, String[] args)
 			throws InvalidArgument {
 		for (int i = 3; i < args.length; ++i) {
-			if (args[i].equals("left")) {
+			if (args[i].equalsIgnoreCase("left")) {
 				left = false;
-			} else if (args[i].equals("right")) {
+			} else if (args[i].equalsIgnoreCase("right")) {
 				left = true;
-			} else if (args[i].equals("up")) {
+			} else if (args[i].equalsIgnoreCase("up")) {
 				up = true;
-			} else if (args[i].equals("forward")) {
+			} else if (args[i].equalsIgnoreCase("forward")) {
 				up = false;
-			} else if (args[i].equals("clear")) {
+			} else if (args[i].equalsIgnoreCase("clear")) {
 				subCommand = "clear";
-			} else if (args[i].equals("scale")) {
+			} else if (args[i].equalsIgnoreCase("scale")) {
 				i = processScaleCommand(args, i);
-			} else if (args[i].equals("alpha")) {
+			} else if (args[i].equalsIgnoreCase("alpha")) {
 				i = processAlphaCommand(args, i);
-			} else if (args[i].equals("distance")) {
+			} else if (args[i].equalsIgnoreCase("distance")) {
 				i = processDistanceCommand(args, i);
-			} else if (args[i].equals("pos")) {
+			} else if (args[i].equalsIgnoreCase("pos")) {
 				i = processPosCommand(args, i);
 			} else {
 				throw new InvalidArgument("Unknown argument: " + args[i]);
@@ -192,7 +192,7 @@ public class Arguments {
 	}
 
 	public boolean isLeft() {
-		return !left;
+		return left;
 	}
 
 	public boolean isUp() {
