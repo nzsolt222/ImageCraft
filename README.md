@@ -14,23 +14,23 @@ This is beta version.
 ## Installation
 
 1. Install [Minecraft Forge](http://files.minecraftforge.net/) 1.8
-2. Download the [ImageCraft-1.8-1.0.jar](./ImageCraft-1.8-1.0.jar?raw=true) file, and copy it to `.minecraft/mods`
+2. Download the [ImageCraft-1.8-1.01.jar](./ImageCraft-1.8-1.01.jar?raw=true) file, and copy it to `.minecraft/mods`
 
 ## Usage
 
 To build an image you can use the `/image` command.
 
-Required arguments(you have to specify in the correct order):
+Required arguments:
 
-| Name             | Value      | Description                                                                |
-|------------------|------------|----------------------------------------------------------------------------|
-| path             | path       | The path to the image. You can use JPEG, PNG, BMP, and GIF image format.   |
-| width            | a number   | The width attribute specifies the width of the image, in blocks.           |
-| height           | a number   | The height attribute specifies the height of the image, in blocks.         |
+| Name             | Value       | Description                                                                |
+|------------------|-------------|----------------------------------------------------------------------------|
+| path             | path or url | The path to the image. You can use JPEG, PNG, BMP, and GIF image format.   |
+| w                | a number    | The width attribute specifies the width of the image, in blocks. If you don't specify this argument, it will calculated from h argument.           |
+| h                | a number    | The height attribute specifies the height of the image, in blocks. If you don't specify this argument, it will calculated from w argument.        |
 
-Example: `/image C:/some/folder/example.png 20 20`
+Example: `/image path C:/some/folder/example.png w 20 h 20`
 
-Optional arguments(the order does not matter and you have to specify the name of the argument, too):
+Optional arguments:
 
 | Name         | Value                    | Description                                                        |
 | -------------|--------------------------|--------------------------------------------------------------------|
@@ -43,12 +43,9 @@ Optional arguments(the order does not matter and you have to specify the name of
 | scale        | smooth, nearest, bicubic | Image scaling type. It depends on the picture which one is better. The default value is nearest. |
 | distance     | cie76, cie94, ciede2000  | Color distance options. It depends on the picture which one is better. The default value is cie94.  |
 | alpha        | a number                 | If the number is 0 or negative then you turn off the transparency. If the number bigger than 255 then the whole picture will be transparent(equal to clear argument). The default value is 10.  |
+| undo         | no value                 | It is a special undo subcommand, what you can use to replace the blocks back to the original states. It is only working for the last five `/image` commands, or until you log out. If you use this argument, you can't use any other argument.  |
 
-Example: `/image C:/some/folder/example.png 20 30 left up pos -12 67 -34 alpha 20 scale smooth distance cie76`
-
-<hr>
-There is a special undo subcommand, what you can use to replace the blocks back to the original states. It is only working for the last five `/image` commands, or until you log out.
-
+Example: `/image path C:/some/folder/example.png w 20 left up pos -12 67 -34 alpha 20 scale smooth distance cie76`
 Example: `/image undo`
 
 ## Build
