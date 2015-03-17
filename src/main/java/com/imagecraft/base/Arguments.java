@@ -1,14 +1,13 @@
 package com.imagecraft.base;
 
-import com.imagecraft.exception.InvalidArgument;
-
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
 import net.minecraft.util.Vec3i;
+
+import com.imagecraft.exception.InvalidArgument;
 
 public class Arguments {
 
@@ -25,43 +24,19 @@ public class Arguments {
 	private boolean undoSubcommand;
 
 	Arguments(ICommandSender sender, String[] args) throws InvalidArgument {
-
-		if(args.length == 1 && args[0].equalsIgnoreCase("undo"))
-		{
-			undoSubcommand = true;
-			return;
-		}
-		else
-		{
-			undoSubcommand = false;
-		}
-		
-		if (args.length < 3) {
-			throw new InvalidArgument("Not enough required parameter!");
-		}
-
 		setDefaultArguments(sender);
-
-		imagePath = args[0];
-
-		try {
-			imageWidth = Integer.valueOf(args[1]);
-			imageHeight = Integer.valueOf(args[2]);
-		} catch (NumberFormatException e) {
-			throw new InvalidArgument("Invalid width or height parameter!");
-		}
-
-		processOptionalArguments(sender, args);
+		processArguments(sender, args);
 	}
 
 	public static String getUsage() {
-		return "<path> <width> <height> [left right up forward pos clear scale distance alpha]";
+		return "[path w h left right up forward pos clear scale distance alpha undo]";
 	}
 
 	private void setDefaultArguments(ICommandSender sender) {
 		imagePath = "";
-		imageWidth = 0;
-		imageHeight = 0;
+		imageWidth = -1;
+		imageHeight = -1;
+		
 		startPos = getDefaultStartImagePos(sender);
 		left = false;
 		up = true;
@@ -69,6 +44,7 @@ public class Arguments {
 		alpha = 10;
 		subCommand = "build";
 		scaleType = "nearest";
+		undoSubcommand = false;
 	}
 
 	private BlockPos getDefaultStartImagePos(ICommandSender sender) {
@@ -80,10 +56,30 @@ public class Arguments {
 		return new BlockPos(pos);
 	}
 
-	private void processOptionalArguments(ICommandSender sender, String[] args)
+	private void processArguments(ICommandSender sender, String[] args)
 			throws InvalidArgument {
-		for (int i = 3; i < args.length; ++i) {
-			if (args[i].equalsIgnoreCase("left")) {
+		
+		if (args.length == 1 && args[0].equalsIgnoreCase("undo")) {
+			undoSubcommand = true;
+			return;
+		} else {
+			undoSubcommand = false;
+		}
+		
+		boolean hasPathCommand = false;
+		boolean hasWorHCommand = false;
+		
+		for (int i = 0; i < args.length; ++i) {
+			if (args[i].equalsIgnoreCase("path")) {
+				i = processPathCommand(args, i);
+				hasPathCommand = true;
+			} else if (args[i].equalsIgnoreCase("w")) {
+				i = proccessWCommand(args, i);
+				hasWorHCommand = true;
+			} else if (args[i].equalsIgnoreCase("h")) {
+				i = processHCommand(args, i);
+				hasWorHCommand = true;
+			} else if (args[i].equalsIgnoreCase("left")) {
 				left = false;
 			} else if (args[i].equalsIgnoreCase("right")) {
 				left = true;
@@ -105,6 +101,55 @@ public class Arguments {
 				throw new InvalidArgument("Unknown argument: " + args[i]);
 			}
 		}
+		
+		if(hasPathCommand == false)
+		{
+			throw new InvalidArgument("You have to specify the path.");
+		}
+		
+		if(hasWorHCommand == false)
+		{
+			throw new InvalidArgument("You have to specify the width or height.");
+		}
+		
+		
+	}
+
+	private int processPathCommand(String[] args, int i) throws InvalidArgument {
+		if (hasArgument(i, 1, args.length) == false) {
+			throw new InvalidArgument("Invalid path parameter!");
+		}
+		imagePath = args[i+1];
+		++i;
+		return i;
+	}
+
+	private int processHCommand(String[] args, int i) throws InvalidArgument {
+		if (hasArgument(i, 1, args.length) == false) {
+			throw new InvalidArgument("Invalid h parameter!");
+		}
+		
+		try {
+			imageHeight = Integer.valueOf(args[i+1]);
+			++i;
+		} catch (NumberFormatException e) {
+			throw new InvalidArgument("Invalid h parameter!");
+		}
+		return i;
+	}
+
+	private int proccessWCommand(String[] args, int i) throws InvalidArgument {
+		if (hasArgument(i, 1, args.length) == false) {
+			throw new InvalidArgument("Invalid w parameter!");
+		}
+		
+		try {
+			imageWidth = Integer.valueOf(args[i+1]);
+			++i;
+		} catch (NumberFormatException e) {
+			throw new InvalidArgument("Invalid w parameter!");
+		}
+		return i;
 	}
 
 	private int processPosCommand(String[] args, int i) throws InvalidArgument {
@@ -230,4 +275,11 @@ public class Arguments {
 		return undoSubcommand;
 	}
 
+	public void setImageWidth(int imageWidth) {
+		this.imageWidth = imageWidth;
+	}
+
+	public void setImageHeight(int imageHeight) {
+		this.imageHeight = imageHeight;
+	}	
 }

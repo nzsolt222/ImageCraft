@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ImageCraft {
 
 	public static final String MODID = "imagecraft";
-	public static final String VERSION = "1.0";
+	public static final String VERSION = "1.01";
 
 	public static List<Block> colorBlocks;
 

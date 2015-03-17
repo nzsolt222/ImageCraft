@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -24,16 +26,18 @@ public class MyImage {
 	BufferedImage image;
 
 	public MyImage(String path) throws ImageException {
-		image = loadImage(path);
+		try {
+			image = loadImage(path);
+		} catch (Exception e) {
+			image = loadImageURL(path);
+		}
 	}
 
-	private BufferedImage loadImage(String path) throws ImageException {
+	private BufferedImage loadImage(String path) throws ImageException, FileNotFoundException {
 		BufferedImage image = null;
 		try {
 			FileInputStream fstream = new FileInputStream(path);
 			image = ImageIO.read(fstream);
-		} catch (FileNotFoundException e) {
-			throw new ImageException("Image not found!");
 		} catch (IOException e) {
 			throw new ImageException("Invalid image file!");
 		}
@@ -44,6 +48,30 @@ public class MyImage {
 
 		return image;
 	}
+	
+	private BufferedImage loadImageURL(String path) throws ImageException {
+		BufferedImage image = null;
+		
+		URL url;
+		try {
+			url = new URL(path);
+		} catch (MalformedURLException e1) {
+			throw new ImageException("Invalid path!");
+		}
+		
+		try {
+			image = ImageIO.read(url.openStream());
+		} catch (IOException e) {
+			throw new ImageException("Cannot open image!");
+		}
+
+		if (image == null) {
+			throw new ImageException("Unknown image type!");
+		}
+
+		return image;
+	}
+	
 
 	public Rgba getImageColor(int x, int y) {
 		Rgba color = new Rgba(image.getRGB(image.getWidth() - y - 1,

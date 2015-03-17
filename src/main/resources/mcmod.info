@@ -3,7 +3,7 @@
   "modid": "imagecraft",
   "name": "ImageCraft",
   "description": "This mod can load an image into the world.",
-  "version": "1.8-1.0",
+  "version": "1.8-1.01",
   "mcversion": "${mcversion}",
   "url": "https://github.com/nzsolt222/ImageCraft",
   "updateUrl": "",

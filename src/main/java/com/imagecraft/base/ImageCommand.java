@@ -77,7 +77,7 @@ public class ImageCommand implements ICommand {
 			sender.addChatMessage(new ChatComponentText(getCommandUsage(sender)));
 			return;
 		}
-
+		
 		if (arguments.isUndoSubcommand()) {
 			processUndoSubCommand(sender);
 			return;
@@ -90,6 +90,16 @@ public class ImageCommand implements ICommand {
 			return;
 		}
 
+		if(arguments.getImageWidth() == -1)
+		{
+			int scale = image.getHeight() / arguments.getImageHeight();
+			arguments.setImageWidth(image.getWidth() / scale);
+		} else if(arguments.getImageHeight() == -1)
+		{
+			int scale = image.getWidth() / arguments.getImageWidth();
+			arguments.setImageHeight(image.getHeight() / scale);
+		}
+		
 		if (arguments.getSubCommand().equals("clear")) {
 			clearImage(sender);
 		} else {
@@ -207,7 +217,7 @@ public class ImageCommand implements ICommand {
 		return false;
 	}
 
-	private void resizeImage(MyImage image, int newW, int newH) {
+	private void resizeImage(MyImage image, int newW, int newH) {		
 		if (arguments.getScaleType().equals("smooth")) {
 			image.resizeImage(newW, newH, MyImage.SMOOTH_RESIZE);
 		} else if (arguments.getScaleType().equals("bicubic")) {
