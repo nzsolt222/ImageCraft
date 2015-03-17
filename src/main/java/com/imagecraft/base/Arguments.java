@@ -22,9 +22,20 @@ public class Arguments {
 	private int alpha;
 	private String subCommand;
 	private String scaleType;
+	private boolean undoSubcommand;
 
 	Arguments(ICommandSender sender, String[] args) throws InvalidArgument {
 
+		if(args.length == 1 && args[0].equalsIgnoreCase("undo"))
+		{
+			undoSubcommand = true;
+			return;
+		}
+		else
+		{
+			undoSubcommand = false;
+		}
+		
 		if (args.length < 3) {
 			throw new InvalidArgument("Not enough required parameter!");
 		}
@@ -213,6 +224,10 @@ public class Arguments {
 
 	public String getScaleType() {
 		return scaleType;
+	}
+
+	public boolean isUndoSubcommand() {
+		return undoSubcommand;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
@@ -18,6 +19,7 @@ import net.minecraft.world.World;
 import com.imagecraft.color.CieLab;
 import com.imagecraft.color.Distance;
 import com.imagecraft.color.Rgba;
+import com.imagecraft.exception.HistoryException;
 import com.imagecraft.exception.ImageException;
 import com.imagecraft.exception.InvalidArgument;
 
@@ -30,10 +32,12 @@ public class ImageCommand implements ICommand {
 	private List<ColorAndBlockState> pixelBlocks;
 	private Arguments arguments;
 	private MyImage image;
+	private History historyEvents;
 
 	public ImageCommand() {
 		this.aliases = new ArrayList();
 		pixelBlocks = new ArrayList<ColorAndBlockState>();
+		historyEvents = new History(5);
 
 		for (int i = 0; i < ImageCraft.colorBlocks.size(); i++) {
 			ColorBlock block = (ColorBlock) ImageCraft.colorBlocks.get(i);
@@ -74,6 +78,11 @@ public class ImageCommand implements ICommand {
 			return;
 		}
 
+		if (arguments.isUndoSubcommand()) {
+			processUndoSubCommand(sender);
+			return;
+		}
+
 		try {
 			image = new MyImage(arguments.getImagePath());
 		} catch (ImageException e1) {
@@ -89,40 +98,63 @@ public class ImageCommand implements ICommand {
 
 	}
 
-	private void buildImage(ICommandSender sender, MyImage image) {
-		World world = sender.getEntityWorld();
+	private void processUndoSubCommand(ICommandSender sender) {
+		try {
+			historyEvents.undo(sender);
+		} catch (HistoryException e) {
+			sender.addChatMessage(e.getAsChat());
+		}
+	}
 
+	private void buildImage(ICommandSender sender, MyImage image) {
 		resizeImage(image, arguments.getImageWidth(),
 				arguments.getImageHeight());
 
-		BlockPos pos = arguments.getStartPos();
+		List<HistoryComponent> history = new ArrayList<HistoryComponent>();
 
 		for (int i = 0; i < arguments.getImageHeight(); ++i) {
 			for (int j = 0; j < arguments.getImageWidth(); j++) {
 				Rgba color = image.getImageColor(i, j);
 				BlockPos block_pos = getPixelPos(sender, j, i);
+				IBlockState state;
 
 				if (color.getAlpha() < arguments.getAlpha()) {
-					world.setBlockState(block_pos, Blocks.air.getDefaultState());
+					state = Blocks.air.getDefaultState();
 				} else {
 					int min_index = getMinDistanceIndex(color);
-					world.setBlockState(block_pos, pixelBlocks.get(min_index)
-							.getState());
+					state = pixelBlocks.get(min_index).getState();
 				}
+
+				IBlockState previousState = changeState(sender, block_pos,
+						state);
+				history.add(new HistoryComponent(block_pos, previousState));
 			}
 		}
+		
+		historyEvents.add(history);
 	}
 
 	private void clearImage(ICommandSender sender) {
-		BlockPos pos = arguments.getStartPos();
-		World world = sender.getEntityWorld();
+		List<HistoryComponent> history = new ArrayList<HistoryComponent>();
 
 		for (int i = 0; i < arguments.getImageHeight(); ++i) {
 			for (int j = 0; j < arguments.getImageWidth(); j++) {
 				BlockPos block_pos = getPixelPos(sender, j, i);
-				world.setBlockState(block_pos, Blocks.air.getDefaultState());
+				IBlockState previousState = changeState(sender, block_pos,
+						Blocks.air.getDefaultState());
+				history.add(new HistoryComponent(block_pos, previousState));
 			}
 		}
+
+		historyEvents.add(history);
+	}
+
+	private IBlockState changeState(ICommandSender sender, BlockPos pos,
+			IBlockState state) {
+		IBlockState previousState = sender.getEntityWorld().getBlockState(pos);
+		sender.getEntityWorld().setBlockState(pos, state);
+		return previousState;
+
 	}
 
 	private int getMinDistanceIndex(Rgba color) {
