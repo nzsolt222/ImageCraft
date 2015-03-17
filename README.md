@@ -46,6 +46,7 @@ Optional arguments:
 | undo         | no value                 | It is a special undo subcommand, what you can use to replace the blocks back to the original states. It is only working for the last five `/image` commands, or until you log out. If you use this argument, you can't use any other argument.  |
 
 Example: `/image path C:/some/folder/example.png w 20 left up pos -12 67 -34 alpha 20 scale smooth distance cie76`
+
 Example: `/image undo`
 
 ## Build
