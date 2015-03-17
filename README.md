@@ -47,7 +47,7 @@ Optional arguments(the order does not matter and you have to specify the name of
 Example: `/image C:/some/folder/example.png 20 30 left up pos -12 67 -34 alpha 20 scale smooth distance cie76`
 
 <hr>
-There is a special undo subcommand, what you can use to replace the blocks back to the original states. It is only working for the last five `/image` commands, and until you log out.
+There is a special undo subcommand, what you can use to replace the blocks back to the original states. It is only working for the last five `/image` commands, or until you log out.
 
 Example: `/image undo`
 
