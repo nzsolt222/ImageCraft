@@ -1,4 +1,4 @@
-package com.imagecraft.base;
+package com.imagecraft.image;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -14,6 +14,12 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+
+import com.imagecraft.base.Arguments;
 import com.imagecraft.color.Rgba;
 import com.imagecraft.exception.ImageException;
 
@@ -33,7 +39,8 @@ public class MyImage {
 		}
 	}
 
-	private BufferedImage loadImage(String path) throws ImageException, FileNotFoundException {
+	private BufferedImage loadImage(String path) throws ImageException,
+			FileNotFoundException {
 		BufferedImage image = null;
 		try {
 			FileInputStream fstream = new FileInputStream(path);
@@ -48,21 +55,21 @@ public class MyImage {
 
 		return image;
 	}
-	
+
 	private BufferedImage loadImageURL(String path) throws ImageException {
 		BufferedImage image = null;
-		
+
 		URL url;
 		try {
 			url = new URL(path);
 		} catch (MalformedURLException e1) {
-			throw new ImageException("Invalid path!");
+			throw new ImageException("Invalid url!");
 		}
-		
+
 		try {
 			image = ImageIO.read(url.openStream());
 		} catch (IOException e) {
-			throw new ImageException("Cannot open image!");
+			throw new ImageException("Invalid image file!");
 		}
 
 		if (image == null) {
@@ -71,9 +78,8 @@ public class MyImage {
 
 		return image;
 	}
-	
 
-	public Rgba getImageColor(int x, int y) {
+	public Rgba getColor(int x, int y) {
 		Rgba color = new Rgba(image.getRGB(image.getWidth() - y - 1,
 				image.getHeight() - x - 1), true);
 
@@ -130,15 +136,77 @@ public class MyImage {
 			e.printStackTrace();
 		}
 	}
-	
-	public int getHeight()
-	{
+
+	public int getHeight() {
 		return image.getHeight();
 	}
-	
-	public int getWidth()
-	{
+
+	public int getWidth() {
 		return image.getWidth();
+	}
+
+	public static BlockPos getBlockPos(ICommandSender sender,
+			Arguments arguments, int x, int y) {
+
+		Entity entity = sender.getCommandSenderEntity();
+		EnumFacing facing = entity.getHorizontalFacing();
+		BlockPos pos = arguments.getStartPos();
+		boolean left = arguments.isLeft();
+		boolean up = arguments.isUp();
+
+		if (facing == EnumFacing.EAST) {
+			if (left) {
+				pos = pos.south(x);
+			} else {
+				pos = pos.north(x);
+			}
+			if (up) {
+				pos = pos.up(y);
+			} else {
+				pos = pos.east(y);
+			}
+		}
+
+		if (facing == EnumFacing.SOUTH) {
+			if (left) {
+				pos = pos.west(x);
+			} else {
+				pos = pos.east(x);
+			}
+			if (up) {
+				pos = pos.up(y);
+			} else {
+				pos = pos.south(y);
+			}
+		}
+
+		if (facing == EnumFacing.WEST) {
+			if (left) {
+				pos = pos.north(x);
+			} else {
+				pos = pos.south(x);
+			}
+			if (up) {
+				pos = pos.up(y);
+			} else {
+				pos = pos.west(y);
+			}
+		}
+
+		if (facing == EnumFacing.NORTH) {
+			if (left) {
+				pos = pos.east(x);
+			} else {
+				pos = pos.west(x);
+			}
+			if (up) {
+				pos = pos.up(y);
+			} else {
+				pos = pos.north(y);
+			}
+		}
+
+		return pos;
 	}
 
 }

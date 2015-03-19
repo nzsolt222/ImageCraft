@@ -3,8 +3,6 @@ package com.imagecraft.base;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.imagecraft.color.Rgba;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -18,6 +16,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.imagecraft.color.Rgba;
 
 @Mod(modid = ImageCraft.MODID, version = ImageCraft.VERSION)
 public class ImageCraft {
@@ -44,21 +44,17 @@ public class ImageCraft {
 			for (int red = 0; red <= 255; red += 51) {
 				for (int green = 0; green <= 255; green += 51) {
 					for (int blue = 0; blue <= 255; blue += 51) {
-						colorBlocks.add(new ColorBlock(new Rgba(red, green,
-								blue)));
+						ColorBlock block = new ColorBlock(new Rgba(red, green,
+								blue));
+						renderItem.getItemModelMesher().register(
+								Item.getItemFromBlock(block),
+								0,
+								new ModelResourceLocation(ImageCraft.MODID
+										+ ":" + block.getName(), "inventory"));
+						colorBlocks.add(block);
 					}
 				}
 			}
-
-			for (int i = 0; i < colorBlocks.size(); i++) {
-				renderItem.getItemModelMesher().register(
-						Item.getItemFromBlock(colorBlocks.get(i)),
-						0,
-						new ModelResourceLocation(ImageCraft.MODID + ":"
-								+ ((ColorBlock) colorBlocks.get(i)).getName(),
-								"inventory"));
-			}
-
 		}
 
 	}

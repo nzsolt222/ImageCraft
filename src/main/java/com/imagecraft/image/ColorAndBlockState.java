@@ -1,9 +1,9 @@
-package com.imagecraft.base;
+package com.imagecraft.image;
+
+import net.minecraft.block.state.IBlockState;
 
 import com.imagecraft.color.CieLab;
 import com.imagecraft.color.Rgba;
-
-import net.minecraft.block.state.IBlockState;
 
 public class ColorAndBlockState {
 	private Rgba color;
@@ -12,6 +12,7 @@ public class ColorAndBlockState {
 
 	public ColorAndBlockState(Rgba color, IBlockState state) {
 		super();
+
 		this.color = color;
 		this.state = state;
 		this.cieColor = color.toCieLab();
@@ -21,8 +22,7 @@ public class ColorAndBlockState {
 		return color;
 	}
 
-	public CieLab getCieLabColor()
-	{
+	public CieLab getCieLabColor() {
 		return cieColor;
 	}
 

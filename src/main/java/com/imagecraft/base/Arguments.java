@@ -36,7 +36,7 @@ public class Arguments {
 		imagePath = "";
 		imageWidth = -1;
 		imageHeight = -1;
-		
+
 		startPos = getDefaultStartImagePos(sender);
 		left = false;
 		up = true;
@@ -58,17 +58,17 @@ public class Arguments {
 
 	private void processArguments(ICommandSender sender, String[] args)
 			throws InvalidArgument {
-		
+
 		if (args.length == 1 && args[0].equalsIgnoreCase("undo")) {
 			undoSubcommand = true;
 			return;
 		} else {
 			undoSubcommand = false;
 		}
-		
+
 		boolean hasPathCommand = false;
 		boolean hasWorHCommand = false;
-		
+
 		for (int i = 0; i < args.length; ++i) {
 			if (args[i].equalsIgnoreCase("path")) {
 				i = processPathCommand(args, i);
@@ -101,25 +101,23 @@ public class Arguments {
 				throw new InvalidArgument("Unknown argument: " + args[i]);
 			}
 		}
-		
-		if(hasPathCommand == false)
-		{
+
+		if (hasPathCommand == false) {
 			throw new InvalidArgument("You have to specify the path.");
 		}
-		
-		if(hasWorHCommand == false)
-		{
-			throw new InvalidArgument("You have to specify the width or height.");
+
+		if (hasWorHCommand == false) {
+			throw new InvalidArgument(
+					"You have to specify the width or height.");
 		}
-		
-		
+
 	}
 
 	private int processPathCommand(String[] args, int i) throws InvalidArgument {
 		if (hasArgument(i, 1, args.length) == false) {
 			throw new InvalidArgument("Invalid path parameter!");
 		}
-		imagePath = args[i+1];
+		imagePath = args[i + 1];
 		++i;
 		return i;
 	}
@@ -128,9 +126,9 @@ public class Arguments {
 		if (hasArgument(i, 1, args.length) == false) {
 			throw new InvalidArgument("Invalid h parameter!");
 		}
-		
+
 		try {
-			imageHeight = Integer.valueOf(args[i+1]);
+			imageHeight = Integer.valueOf(args[i + 1]);
 			++i;
 		} catch (NumberFormatException e) {
 			throw new InvalidArgument("Invalid h parameter!");
@@ -142,9 +140,9 @@ public class Arguments {
 		if (hasArgument(i, 1, args.length) == false) {
 			throw new InvalidArgument("Invalid w parameter!");
 		}
-		
+
 		try {
-			imageWidth = Integer.valueOf(args[i+1]);
+			imageWidth = Integer.valueOf(args[i + 1]);
 			++i;
 		} catch (NumberFormatException e) {
 			throw new InvalidArgument("Invalid w parameter!");
@@ -281,5 +279,5 @@ public class Arguments {
 
 	public void setImageHeight(int imageHeight) {
 		this.imageHeight = imageHeight;
-	}	
+	}
 }

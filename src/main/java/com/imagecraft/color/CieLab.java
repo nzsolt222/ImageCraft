@@ -1,11 +1,11 @@
 package com.imagecraft.color;
 
 public class CieLab {
-	
+
 	private double l;
 	private double a;
 	private double b;
-	
+
 	public CieLab(double l, double a, double b) {
 		super();
 		this.l = l;

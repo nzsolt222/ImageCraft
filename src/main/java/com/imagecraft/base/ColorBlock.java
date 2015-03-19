@@ -1,15 +1,10 @@
 package com.imagecraft.base;
 
-import com.imagecraft.color.Distance;
-import com.imagecraft.color.Rgba;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import com.imagecraft.color.Rgba;
 
 public class ColorBlock extends Block {
 
@@ -20,7 +15,7 @@ public class ColorBlock extends Block {
 		super(Material.rock);
 		this.color = color;
 		name = color.getRed() + "_" + color.getGreen() + "_" + color.getBlue();
-		
+
 		setUnlocalizedName(name);
 		setCreativeTab(ImageCraft.imageCraftTab);
 		GameRegistry.registerBlock(this, name);
@@ -33,5 +28,5 @@ public class ColorBlock extends Block {
 	public Rgba getColor() {
 		return color;
 	}
-	
+
 }

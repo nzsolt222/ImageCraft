@@ -1,6 +1,5 @@
 package com.imagecraft.color;
 
-
 public class Xyz {
 	private double x;
 	private double y;

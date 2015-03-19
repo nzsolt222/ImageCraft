@@ -1,13 +1,13 @@
-package com.imagecraft.base;
+package com.imagecraft.image;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.BlockPos;
 
-public class HistoryComponent {
+public class PositionAndState {
 	private BlockPos position;
 	private IBlockState state;
 	
-	public HistoryComponent(BlockPos position, IBlockState state) {
+	public PositionAndState(BlockPos position, IBlockState state) {
 		super();
 		this.position = position;
 		this.state = state;
