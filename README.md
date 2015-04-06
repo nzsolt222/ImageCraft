@@ -10,6 +10,7 @@ This is beta version.
 - [Build](#build)
 - [Usage](#usage)
 - [Screenshot](#screenshot)
+- [Credits](#credits)
 
 ## Installation
 
@@ -67,3 +68,8 @@ Video:
 ![Example 3](screenshot/spongyabob.png?raw=true)
 ![Example 4](screenshot/meme.png?raw=true)
 ![Example 5](screenshot/rainbow.png?raw=true)
+
+## Credits
+Feel free to contact me with any questions!
+
+You can reach me at <nzsolt222@gmail.com>.
